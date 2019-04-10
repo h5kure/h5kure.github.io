@@ -27,7 +27,7 @@ Apache WSGI 모듈을 설치하면 대부분 자동으로 활성화 되지만, �
 
 ``` bash
 # wsgi 모듈 활성화
-a2enmod wsgi
+$ sudo a2enmod wsgi
 ```
 
 실행 후에 apache 에 설정을 reload 시켜주거나 restart 시켜줘야 하지만 아직 설정할게 남았으니 굳이 여기에서 할 필요는 없겠다.
