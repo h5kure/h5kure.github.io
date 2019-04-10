@@ -1,8 +1,6 @@
 ---
 title: "Django 2 with Apache 2 and WSGI"
-
 date: 2019-04-09 22:00:00 -0400
-
 categories: django apache wsgi ubuntu debian
 ---
 Django 앞에 Apache (with WSGI, Web Server Gateway Interface) 를 붙여서 서비스를 하기 위해 필요한 작업 정리
