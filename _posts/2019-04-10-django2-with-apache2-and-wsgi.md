@@ -1,4 +1,8 @@
-# Django 2 with Apache and WSGI
+---
+title: "Django 2 with Apache 2 and WSGI"
+date: 2019-04-09 22:00:00 -0400
+categories: django apache wsgi ubuntu debian
+---
 Django 앞에 Apache (with WSGI, Web Server Gateway Interface) 를 붙여서 서비스를 하기 위해 필요한 작업 정리
 검색으로 나오는 유사 정보들은 대부분 예전 버전 기준이라던가 Python 2 기준으로 되어 있어 Python 3 을 사용하는 경우에 대한 정보가 많이 없어서 정리
 
