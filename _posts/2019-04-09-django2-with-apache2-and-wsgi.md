@@ -3,8 +3,9 @@ title: "Django 2 with Apache 2 and WSGI"
 date: 2019-04-09 22:00:00 -0400
 categories: django apache wsgi ubuntu debian
 ---
-Django 앞에 Apache (with WSGI, Web Server Gateway Interface) 를 붙여서 서비스를 하기 위해 필요한 작업 정리
-검색으로 나오는 유사 정보들은 대부분 예전 버전 기준이라던가 Python 2 기준으로 되어 있어 Python 3 을 사용하는 경우에 대한 정보가 많이 없어서 정리
+Django 앞에 Apache (with WSGI, Web Server Gateway Interface) 를 붙여서 서비스를 하기 위해 간단 요약 및 메모.
+
+검색으로 나오는 유사 정보들은 대부분 예전 버전 기준이라던가 Python 2 기준으로 되어 있어 Python 3 을 사용하는 경우에 대한 정보를 찾기가 어려웠다.
 
 ## Environment
 OS: Ubuntu
@@ -13,25 +14,29 @@ Django: 2.1.7 (virtualenv 사용)
 
 ## Prepare Packages
 Python 2 의 경우,
-> libapache2-mod-wsgi : Apache WSGI 모듈. 대부분의 안내는 해당 모듈을 사용하도록 되어 있는데 이 모듈은 Python2 에서만 이용가능  
+> libapache2-mod-wsgi : Apache WSGI 모듈. 대부분의 안내는 해당 모듈을 사용하도록 되어 있는데 이 모듈은 Python2 에서만 이용가능
 
 Python 3 의 경우,
-> libapache2-mod-wsgi-py3 : Apache WSGI 모듈. Python 3 과 사용하기 위해 필요.  
+> libapache2-mod-wsgi-py3 : Apache WSGI 모듈. Python 3 과 사용하기 위해 필요.
 
-위 모듈들만 제대로 설치하면 이하는 이미 있는 많은 정보들과 거의 동일.
-위 두 모듈은 동시에 사용하는 것이 불가능한 것으로 보여짐.
+위 모듈들만 제대로 설치하면 다른 설정들은 이미 나와 있는 많은 정보들과 별 차이가 없을 것 같다.
 
-Apache WSGI 모듈을 설치하면  대부분 자동으로 활성화 되지만, 필요한 경우 활성화
+위 두 모듈은 동시에 사용하는 것이 불가능한 것으로 보이며 나중에 설치한 쪽으로 사용되는 것으로 보인다.
+
+Apache WSGI 모듈을 설치하면 대부분 자동으로 활성화 되지만, 필요한 경우 활성화 명령을 실행 시켜 줘야 한다.
 
 ``` bash
 # wsgi 모듈 활성화
 a2enmod wsgi
 ```
 
-그 외는 Python 버전에 맞게 pip 를 설치하고 pip 를 통해 virtualenv 등을 설치
+실행 후에 apache 에 설정을 reload 시켜주거나 restart 시켜줘야 하지만 아직 설정할게 남았으니 굳이 여기에서 할 필요는 없겠다.
+
+그 외는 Python 버전에 맞게 pip 를 설치하고 pip 를 통해 virtualenv 등을 설치한다.
 
 ## Python Virtual Environment
-새로운 프로젝트를 생성하는 경우라면 virtualenv 를 구성하여 Django project 를 생성하거나 이미 있는 프로젝트를 서버에 deploy 해서 사용하는 경우에는 virtualenv 만 구성하면 될 것.
+새로운 프로젝트를 생성하는 경우라면 virtualenv 를 구성하여 pip 를 통해 Django 를 설치하고 Django project 를 생성해야 하고
+이미 있는 프로젝트를 서버에 deploy 해서 사용하는 경우에는 virtualenv 만 구성하면 될 것이다.
 
 ``` bash
 $ mkdir ~/myproject
@@ -43,9 +48,9 @@ $ source ~/myproject/venv/bin/activate
 ```
 
 ### Project Settings
-이제 Django project 의 settings 설정
-설정이 필요한 항목은 딱 두가지.
-접근 가능한 Host 설정과 Static File 접근을 위한 STATIC_ROOT 설정
+이제 Django project 의 settings 설정한다.
+
+설정이 필요한 항목은 딱 두가지가 있는데 접근 가능한 Host 설정과 Static File 접근을 위한 STATIC_ROOT 를 설정한다.
 
 ``` python
 # ~/myproject/myproject/settings.py
@@ -75,8 +80,6 @@ Static File 들을 settings.py 에 설정한 곳에 모으기 위해,
 ``` bash
 (venv) $ python manage.py collectstatic
 ```
-
-그 외에 ufw firewall 나 iptables 설정이 필요하다면 수행
 
 Django 동작 확인
 
@@ -156,5 +159,12 @@ Syntax OK
 $ sudo systemctl restart apache2
 ```
 
+그 외에 방화벽을 사용하고 있어 외부에서 Apache 에 접근할 수 없다면 ufw firewall 나 iptables 설정으로 접근 가능하도록 해줘야 할 것이다.
+
+방화벽 관련 설정은 생략한다.
+
 해당 설정들은 [How to Serve Django Applications with Apache and mod_wsgi on Debian 8](https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-debian-8) 을 대부분 참조했다.
-위 문서에서는 Apache 설정을 000-default.conf 에 설정하여 별도의 사이트 활성화가 필요없지만 기본 설정이라 Apache 로 여러 사이트를 운영하고 있다면 별도의 설정을 작성하는 것이 맞을 것이다. 친절하게 하나하나 설명을 해주고 있어서 참고하기 좋은 문서이다.
+
+영어로 되어 있어도 알기 쉽게 설명되어 있어 따라하는데 별 무리가 없었다.
+
+위 문서에서는 Apache 기본 설정인 000-default.conf 에 위와 같은 값들을 설정하여 별도의 사이트 활성화가 필요없지만 Apache 로 여러 사이트를 운영하고 있다면 별도의 설정을 작성하는 것이 맞을 것이다.
