@@ -36,7 +36,7 @@ self-signed 인증서의 경우, openssl 명령어로 마음대로 만들 수 �
  
  Debian, Ubuntu 에서는 이 certbot 을 APT 명령어로 간단히 설치하여 이용할 수 있다.
  
- ## Limit
+## Limit
  
  보통 사설 기관에서 발급하는 인증서는 최소 1년 단위가 기본이지만, Let's Encrypt 에서 발급하는 인증서는 최대 90 일의 유효 기간을 가진다.
  
@@ -44,7 +44,7 @@ self-signed 인증서의 경우, openssl 명령어로 마음대로 만들 수 �
  
  특히, 인증서를 재발급 시에 웹 서버가 일시 중단되어 서비스가 불가능한 공백이 발생할 수 있지만, Apache Plug-in 을 이용하는 경우에는 그러한 공백 없이 이용하는 것이 가능하다고 한다.
  
- ## Apache 2, Ubuntu 18.04 bionic 에서
+## Apache 2, Ubuntu 18.04 bionic 에서
  
 설치해야 하는 필요한 패키지로
 
