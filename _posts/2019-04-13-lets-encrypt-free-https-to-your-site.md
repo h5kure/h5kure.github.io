@@ -121,6 +121,16 @@ $ sudo crontab -e
 
 나는 매달 1일에 인증서를 새로 생성하도록 설정했다.
 
+#### 추가
+
+```bash
+sudo certbot renew --dry-run
+```
+
+명령어를 실행하면 자동으로 crontab 을 위한 설정을 생성해주는 것으로 보인다.
+
+생성된 설정은 `/etc/cron.d/` 에 `certbot` 에서 확인 가능하다. 
+
 # Conclusion
 
 간단하게 이용 가능하고 복잡한 내용도 없어서 위 정도의 정보면 충분할 것이다.
